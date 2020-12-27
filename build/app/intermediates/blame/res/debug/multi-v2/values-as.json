@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/elpatron/Documents/Workspace/sqliteapp/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-as/values-as.xml",
+            "outputFile": "/home/elpatron/Documents/Workspace/sqlite/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-as/values-as.xml",
             "map": [
                 {
                     "source": "/home/elpatron/.gradle/caches/transforms-2/files-2.1/bcd2ab89d26230dea536c88e023b7268/core-1.1.0/res/values-as/values-as.xml",

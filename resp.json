@@ -1,0 +1,37 @@
+[
+  {
+    "id": "btc",
+    "name": "Bitcoin",
+    "dateOfCreation": "2009-10-22T00:00:00.000",
+    "price": 24560.72,
+    "image": "https://www.infobae.com/new-resizer/WwsL__HV-TmG_Y-du2hTxfcnjPw=/420x280/filters:format(jpg):quality(85)//cloudfront-us-east-1.images.arcpublishing.com/infobae/BUTETF4CANYK4FASX4MEGHJ3JY.jpg"
+  },
+  {
+    "id": "eth",
+    "name": "Ethereum",
+    "dateOfCreation": "2013-04-17T00:00:00.000",
+    "price": 603,
+    "image": "https://upload.wikimedia.org/wikipedia/commons/b/b7/ETHEREUM-YOUTUBE-PROFILE-PIC.png"
+  },
+  {
+    "id": "xlm",
+    "name": "Stellar Lumen",
+    "dateOfCreation": "2017-03-04T00:00:00.000",
+    "price": 0.1275,
+    "image": "https://escuelacripto.es/wp-content/uploads/2020/06/Stellar-XLM-Coinbase-Update.png"
+  },
+  {
+    "id": "xrp",
+    "name": "Ripple",
+    "dateOfCreation": "2015-12-21T00:00:00.000",
+    "price": 0.105,
+    "image": "https://s2.coinmarketcap.com/static/img/coins/200x200/52.png"
+  },
+  {
+    "id": "cro",
+    "name": "Crypto.com coin",
+    "dateOfCreation": "2017-10-15T00:00:00.000",
+    "price": 0.05,
+    "image": "https://crypto.com/price/coin-data/icon/CRO/color_icon.png"
+  }
+]

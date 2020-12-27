@@ -1,4 +1,4 @@
-#Fri Dec 25 15:16:35 CET 2020
-base.0=/home/elpatron/Documents/Workspace/sqliteapp/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+#Sat Dec 26 19:54:05 CET 2020
+base.0=/home/elpatron/Documents/Workspace/sqlite/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

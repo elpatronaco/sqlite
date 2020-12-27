@@ -31,56 +31,6 @@ class HomePage extends StatelessWidget {
                 child: Container(
                     //This is where the magic starts
                     child: getTodosWidget()))),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          child: Container(
-            decoration: BoxDecoration(
-                border: Border(
-              top: BorderSide(color: Colors.grey, width: 0.3),
-            )),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                IconButton(
-                    icon: Icon(
-                      Icons.menu,
-                      color: Colors.indigoAccent,
-                      size: 28,
-                    ),
-                    onPressed: () {
-                      //just re-pull UI for testing purposes
-                      todoBloc.getTodos();
-                    }),
-                Expanded(
-                  child: Text(
-                    "Todo",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'RobotoMono',
-                        fontStyle: FontStyle.normal,
-                        fontSize: 19),
-                  ),
-                ),
-                Wrap(children: <Widget>[
-                  IconButton(
-                    icon: Icon(
-                      Icons.search,
-                      size: 28,
-                      color: Colors.indigoAccent,
-                    ),
-                    onPressed: () {
-                      _showTodoSearchSheet(context);
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: 5),
-                  )
-                ])
-              ],
-            ),
-          ),
-        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: Padding(
           padding: EdgeInsets.only(bottom: 25),
@@ -140,9 +90,7 @@ class HomePage extends StatelessWidget {
                                       color: Colors.indigoAccent,
                                       fontWeight: FontWeight.w500)),
                               validator: (String value) {
-                                if (value.isEmpty) {
-                                  return 'Empty description!';
-                                }
+                                if (value.isEmpty) return 'Empty description';
                                 return value.contains('')
                                     ? 'Do not use the @ char.'
                                     : null;
@@ -176,91 +124,6 @@ class HomePage extends StatelessWidget {
                                     //dismisses the bottomsheet
                                     Navigator.pop(context);
                                   }
-                                },
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        });
-  }
-
-  void _showTodoSearchSheet(BuildContext context) {
-    final _todoSearchDescriptionFormController = TextEditingController();
-    showModalBottomSheet(
-        context: context,
-        builder: (builder) {
-          return new Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: new Container(
-              color: Colors.transparent,
-              child: new Container(
-                height: 230,
-                decoration: new BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: new BorderRadius.only(
-                        topLeft: const Radius.circular(10.0),
-                        topRight: const Radius.circular(10.0))),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: 15, top: 25.0, right: 15, bottom: 30),
-                  child: ListView(
-                    children: <Widget>[
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Expanded(
-                            child: TextFormField(
-                              controller: _todoSearchDescriptionFormController,
-                              textInputAction: TextInputAction.newline,
-                              maxLines: 4,
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.w400),
-                              autofocus: true,
-                              decoration: const InputDecoration(
-                                hintText: 'Search for todo...',
-                                labelText: 'Search *',
-                                labelStyle: TextStyle(
-                                    color: Colors.indigoAccent,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              validator: (String value) {
-                                return value.contains('@')
-                                    ? 'Do not use the @ char.'
-                                    : null;
-                              },
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 5, top: 15),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.indigoAccent,
-                              radius: 18,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.search,
-                                  size: 22,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  /*This will get all todos
-                                  that contains similar string
-                                  in the textform
-                                  */
-                                  todoBloc.getTodos(
-                                      query:
-                                          _todoSearchDescriptionFormController
-                                              .value.text);
-                                  //dismisses the bottomsheet
-                                  Navigator.pop(context);
                                 },
                               ),
                             ),
@@ -338,7 +201,7 @@ class HomePage extends StatelessWidget {
                           onTap: () {
                             //Reverse the value
                             todo.isDone = !todo.isDone;
-                          /*
+                            /*
                             Another magic.
                             This will update Todo isDone with either
                             completed or not
