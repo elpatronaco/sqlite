@@ -1,21 +1,21 @@
 import 'dart:async';
 
 import 'package:sqliteapp/database/database.dart';
-import 'package:sqliteapp/model/todo.dart';
+import 'package:sqliteapp/model/coin.dart';
 
 class TodoDao {
   final dbProvider = DatabaseProvider.dbProvider;
 
   //Adds new Todo records
-  Future<int> createTodo(Todo todo) async {
+  Future<int> createTodo(Coin coin) async {
     final db = await dbProvider.database;
-    var result = db.insert(todoTABLE, todo.toDatabaseJson());
+    var result = db.insert(todoTABLE, coin.toDatabaseJson());
     return result;
   }
 
   //Get All Todo items
   //Searches if query string was passed
-  Future<List<Todo>> getTodos({List<String> columns, String query}) async {
+  Future<List<Coin>> getTodos({List<String> columns, String query}) async {
     final db = await dbProvider.database;
 
     List<Map<String, dynamic>> result;
@@ -29,24 +29,24 @@ class TodoDao {
       result = await db.query(todoTABLE, columns: columns);
     }
 
-    List<Todo> todos = result.isNotEmpty
-        ? result.map((item) => Todo.fromDatabaseJson(item)).toList()
+    List<Coin> coins = result.isNotEmpty
+        ? result.map((item) => Coin.fromDatabaseJson(item)).toList()
         : [];
-    return todos;
+    return coins;
   }
 
   //Update Todo record
-  Future<int> updateTodo(Todo todo) async {
+  Future<int> updateTodo(Coin coin) async {
     final db = await dbProvider.database;
 
-    var result = await db.update(todoTABLE, todo.toDatabaseJson(),
-        where: "id = ?", whereArgs: [todo.id]);
+    var result = await db.update(todoTABLE, coin.toDatabaseJson(),
+        where: "id = ?", whereArgs: [coin.id]);
 
     return result;
   }
 
   //Delete Todo records
-  Future<int> deleteTodo(int id) async {
+  Future<int> deleteTodo(String id) async {
     final db = await dbProvider.database;
     var result = await db.delete(todoTABLE, where: 'id = ?', whereArgs: [id]);
 

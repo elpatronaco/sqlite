@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sqliteapp/bloc/todo_bloc.dart';
-import 'package:sqliteapp/model/todo.dart';
+import 'package:sqliteapp/bloc/coin_bloc.dart';
+import 'package:sqliteapp/model/coin.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key key, this.title}) : super(key: key);
 
   //We load our Todo BLoC that is used to get
   //the stream of Todo for StreamBuilder
-  final TodoBloc todoBloc = TodoBloc();
+  final CoinBloc coinBloc = CoinBloc();
   final String title;
 
   //Allows Todo card to be dismissable horizontally
@@ -50,7 +50,10 @@ class HomePage extends StatelessWidget {
   }
 
   void _showAddTodoSheet(BuildContext context) {
-    final _todoDescriptionFormController = TextEditingController();
+    final _coinAliasTextField = TextEditingController();
+    final _coinNameTextField = TextEditingController();
+    final _coinPriceTextField = TextEditingController();
+    final _coinImageTextField = TextEditingController();
     showModalBottomSheet(
         context: context,
         builder: (builder) {
@@ -60,7 +63,7 @@ class HomePage extends StatelessWidget {
             child: new Container(
               color: Colors.transparent,
               child: new Container(
-                height: 230,
+                height: 200,
                 decoration: new BoxDecoration(
                     color: Colors.white,
                     borderRadius: new BorderRadius.only(
@@ -76,27 +79,66 @@ class HomePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Expanded(
-                            child: TextFormField(
-                              controller: _todoDescriptionFormController,
-                              textInputAction: TextInputAction.newline,
-                              maxLines: 4,
-                              style: TextStyle(
-                                  fontSize: 21, fontWeight: FontWeight.w400),
-                              autofocus: true,
-                              decoration: const InputDecoration(
-                                  hintText: 'I have to...',
-                                  labelText: 'New Todo',
-                                  labelStyle: TextStyle(
-                                      color: Colors.indigoAccent,
-                                      fontWeight: FontWeight.w500)),
-                              validator: (String value) {
-                                if (value.isEmpty) return 'Empty description';
-                                return value.contains('')
-                                    ? 'Do not use the @ char.'
-                                    : null;
-                              },
-                            ),
-                          ),
+                              child: Column(
+                            children: [
+                              TextFormField(
+                                controller: _coinAliasTextField,
+                                textInputAction: TextInputAction.newline,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    fontSize: 21, fontWeight: FontWeight.w400),
+                                autofocus: true,
+                                decoration: const InputDecoration(
+                                    hintText: 'BTC',
+                                    labelText: 'Alias',
+                                    labelStyle: TextStyle(
+                                        color: Colors.indigoAccent,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              TextFormField(
+                                controller: _coinNameTextField,
+                                textInputAction: TextInputAction.newline,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    fontSize: 21, fontWeight: FontWeight.w400),
+                                autofocus: true,
+                                decoration: const InputDecoration(
+                                    hintText: 'Bitcoin',
+                                    labelText: 'Name',
+                                    labelStyle: TextStyle(
+                                        color: Colors.indigoAccent,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              TextFormField(
+                                controller: _coinPriceTextField,
+                                textInputAction: TextInputAction.newline,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    fontSize: 21, fontWeight: FontWeight.w400),
+                                autofocus: true,
+                                decoration: const InputDecoration(
+                                    hintText: '25011',
+                                    labelText: 'Price',
+                                    labelStyle: TextStyle(
+                                        color: Colors.indigoAccent,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                              TextFormField(
+                                controller: _coinImageTextField,
+                                textInputAction: TextInputAction.newline,
+                                maxLines: 1,
+                                style: TextStyle(
+                                    fontSize: 21, fontWeight: FontWeight.w400),
+                                autofocus: true,
+                                decoration: const InputDecoration(
+                                    hintText: 'www.google.com/image.png',
+                                    labelText: 'Image',
+                                    labelStyle: TextStyle(
+                                        color: Colors.indigoAccent,
+                                        fontWeight: FontWeight.w500)),
+                              ),
+                            ],
+                          )),
                           Padding(
                             padding: EdgeInsets.only(left: 5, top: 15),
                             child: CircleAvatar(
@@ -109,21 +151,16 @@ class HomePage extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  final newTodo = Todo(
-                                      description:
-                                          _todoDescriptionFormController
-                                              .value.text);
-                                  if (newTodo.description.isNotEmpty) {
-                                    /*Create new Todo object and make sure
-                                    the Todo description is not empty,
-                                    because what's the point of saving empty
-                                    Todo
-                                    */
-                                    todoBloc.addTodo(newTodo);
+                                  final newTodo = Coin(
+                                      id: _coinAliasTextField.value.text,
+                                      name: _coinNameTextField.value.text,
+                                      price: double.parse(
+                                          _coinPriceTextField.value.text),
+                                      image: _coinImageTextField.value.text,
+                                  );
 
-                                    //dismisses the bottomsheet
-                                    Navigator.pop(context);
-                                  }
+                                  coinBloc.addCoin(newTodo);
+                                  Navigator.pop(context);
                                 },
                               ),
                             ),
@@ -145,14 +182,14 @@ class HomePage extends StatelessWidget {
     and construct the UI (with state) based on the stream
     */
     return StreamBuilder(
-      stream: todoBloc.todos,
-      builder: (BuildContext context, AsyncSnapshot<List<Todo>> snapshot) {
+      stream: coinBloc.todos,
+      builder: (BuildContext context, AsyncSnapshot<List<Coin>> snapshot) {
         return getTodoCardWidget(snapshot);
       },
     );
   }
 
-  Widget getTodoCardWidget(AsyncSnapshot<List<Todo>> snapshot) {
+  Widget getTodoCardWidget(AsyncSnapshot<List<Coin>> snapshot) {
     /*Since most of our operations are asynchronous
     at initial state of the operation there will be no stream
     so we need to handle it if this was the case
@@ -166,78 +203,33 @@ class HomePage extends StatelessWidget {
           ? ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (context, itemPosition) {
-                Todo todo = snapshot.data[itemPosition];
+                Coin coin = snapshot.data[itemPosition];
                 final Widget dismissibleCard = new Dismissible(
-                  background: Container(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Deleting",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    color: Colors.redAccent,
-                  ),
-                  onDismissed: (direction) {
-                    /*The magic
-                    delete Todo item by ID whenever
-                    the card is dismissed
-                    */
-                    todoBloc.deleteTodoById(todo.id);
-                  },
-                  direction: _dismissDirection,
-                  key: new ObjectKey(todo),
-                  child: Card(
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.grey[200], width: 0.5),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      color: Colors.white,
-                      child: ListTile(
-                        leading: InkWell(
-                          onTap: () {
-                            //Reverse the value
-                            todo.isDone = !todo.isDone;
-                            /*
-                            Another magic.
-                            This will update Todo isDone with either
-                            completed or not
-                          */
-                            todoBloc.updateTodo(todo);
-                          },
-                          child: Container(
-                            //decoration: BoxDecoration(),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: todo.isDone
-                                  ? Icon(
-                                      Icons.done,
-                                      size: 26.0,
-                                      color: Colors.indigoAccent,
-                                    )
-                                  : Icon(
-                                      Icons.check_box_outline_blank,
-                                      size: 26.0,
-                                      color: Colors.tealAccent,
-                                    ),
-                            ),
+                    background: Container(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Lol",
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        title: Text(
-                          todo.description,
-                          style: TextStyle(
-                              fontSize: 16.5,
-                              fontFamily: 'RobotoMono',
-                              fontWeight: FontWeight.w500,
-                              decoration: todo.isDone
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none),
-                        ),
-                      )),
-                );
+                      ),
+                      color: Colors.redAccent,
+                    ),
+                    onDismissed: (direction) {
+                      coinBloc.deleteTodoById(coin.id);
+                    },
+                    direction: _dismissDirection,
+                    key: new ObjectKey(coin),
+                    child: Card(
+                        child: ListTile(
+                            leading: coin.image != ""
+                                ? Image.network(coin.image)
+                                : Image.asset("assets/peseta.png"),
+                            title: Text(coin.name),
+                        )));
                 return dismissibleCard;
               },
             )
@@ -245,50 +237,35 @@ class HomePage extends StatelessWidget {
               child: Center(
               //this is used whenever there 0 Todo
               //in the data base
-              child: noTodoMessageWidget(),
+              child: Container(
+                child: Text(
+                  "Start adding coins... length: ${snapshot.data.length}",
+                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
+                ),
+              ),
             ));
     } else {
       return Center(
-        /*since most of our I/O operations are done
-        outside the main thread asynchronously
-        we may want to display a loading indicator
-        to let the use know the app is currently
-        processing*/
-        child: loadingData(),
+        child: Container(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CircularProgressIndicator(),
+                Text("Loading...",
+                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500))
+              ],
+            ),
+          ),
+        ),
       );
     }
-  }
-
-  Widget loadingData() {
-    //pull todos again
-    todoBloc.getTodos();
-    return Container(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CircularProgressIndicator(),
-            Text("Loading...",
-                style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500))
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget noTodoMessageWidget() {
-    return Container(
-      child: Text(
-        "Start adding Todo...",
-        style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-      ),
-    );
   }
 
   dispose() {
     /*close the stream in order
     to avoid memory leaks
     */
-    todoBloc.dispose();
+    coinBloc.dispose();
   }
 }

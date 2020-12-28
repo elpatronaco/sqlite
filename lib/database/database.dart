@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqliteapp/model/todo.dart';
+import 'package:sqliteapp/model/coin.dart';
 
 final todoTABLE = 'Todo';
 
@@ -37,14 +37,16 @@ class DatabaseProvider {
   void initDB(Database database, int version) async {
     await database.execute("CREATE TABLE $todoTABLE ("
         "id INTEGER PRIMARY KEY, "
-        "description TEXT, "
-        "is_done INTEGER "
+        "name TEXT, "
+        "dateOfCreation TEXT, "
+        "price REAL, "
+        "image TEXT"
         ")");
   }
 
-  void addTodo(Todo element) async {
+  void addCoin(Coin element) async {
     await _database.execute("INSERT INTO $todoTABLE "
-        "(id, description, is_done) "
-        "VALUES (${element.id}, ${element.description}, ${element.isDone}");
+        "(id, name, dateOfCreation, price, image) "
+        "VALUES (${element.id}, '${element.name}', '${element.dateOfCreation}', ${element.price}, '${element.image}'");
   }
 }

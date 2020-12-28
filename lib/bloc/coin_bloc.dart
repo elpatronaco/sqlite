@@ -1,21 +1,21 @@
 import 'dart:async';
 
-import 'package:sqliteapp/model/todo.dart';
-import 'package:sqliteapp/repository/todo_repository.dart';
+import 'package:sqliteapp/model/coin.dart';
+import 'package:sqliteapp/repository/coin_repository.dart';
 
-class TodoBloc {
+class CoinBloc {
   //Get instance of the Repository
-  final _todoRepository = TodoRepository();
+  final _todoRepository = CoinRepository();
 
   //Stream controller is the 'Admin' that manages
   //the state of our stream of data like adding
   //new data, change the state of the stream
   //and broadcast it to observers/subscribers
-  final _todoController = StreamController<List<Todo>>.broadcast();
+  final _todoController = StreamController<List<Coin>>.broadcast();
 
   get todos => _todoController.stream;
 
-  TodoBloc() {
+  CoinBloc() {
     getTodos();
   }
 
@@ -25,17 +25,17 @@ class TodoBloc {
     _todoController.sink.add(await _todoRepository.getAllTodos(query: query));
   }
 
-  addTodo(Todo todo) async {
-    await _todoRepository.insertTodo(todo);
+  addCoin(Coin coin) async {
+    await _todoRepository.insertTodo(coin);
     getTodos();
   }
 
-  updateTodo(Todo todo) async {
-    await _todoRepository.updateTodo(todo);
+  updateTodo(Coin coin) async {
+    await _todoRepository.updateTodo(coin);
     getTodos();
   }
 
-  deleteTodoById(int id) async {
+  deleteTodoById(String id) async {
     _todoRepository.deleteTodoById(id);
     getTodos();
   }

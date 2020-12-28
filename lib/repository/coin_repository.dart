@@ -1,16 +1,16 @@
 import 'package:sqliteapp/dao/todo_dao.dart';
-import 'package:sqliteapp/model/todo.dart';
+import 'package:sqliteapp/model/coin.dart';
 
-class TodoRepository {
+class CoinRepository {
   final todoDao = TodoDao();
 
   Future getAllTodos({String query}) => todoDao.getTodos(query: query);
 
-  Future insertTodo(Todo todo) => todoDao.createTodo(todo);
+  Future insertTodo(Coin coin) => todoDao.createTodo(coin);
 
-  Future updateTodo(Todo todo) => todoDao.updateTodo(todo);
+  Future updateTodo(Coin coin) => todoDao.updateTodo(coin);
 
-  Future deleteTodoById(int id) => todoDao.deleteTodo(id);
+  Future deleteTodoById(String id) => todoDao.deleteTodo(id);
 
   //We are not going to use this in the demo
   Future deleteAllTodos() => todoDao.deleteAllTodos();
