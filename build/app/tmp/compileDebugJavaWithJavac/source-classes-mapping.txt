@@ -32,20 +32,6 @@ androidx/lifecycle/R.java
  androidx.lifecycle.R
 androidx/arch/core/R.java
  androidx.arch.core.R
-androidx/viewpager/R.java
- androidx.viewpager.R
- androidx.viewpager.R$attr
- androidx.viewpager.R$color
- androidx.viewpager.R$dimen
- androidx.viewpager.R$drawable
- androidx.viewpager.R$id
- androidx.viewpager.R$integer
- androidx.viewpager.R$layout
- androidx.viewpager.R$string
- androidx.viewpager.R$style
- androidx.viewpager.R$styleable
-androidx/versionedparcelable/R.java
- androidx.versionedparcelable.R
 androidx/fragment/R.java
  androidx.fragment.R
  androidx.fragment.R$attr
@@ -58,6 +44,20 @@ androidx/fragment/R.java
  androidx.fragment.R$string
  androidx.fragment.R$style
  androidx.fragment.R$styleable
+androidx/versionedparcelable/R.java
+ androidx.versionedparcelable.R
+androidx/viewpager/R.java
+ androidx.viewpager.R
+ androidx.viewpager.R$attr
+ androidx.viewpager.R$color
+ androidx.viewpager.R$dimen
+ androidx.viewpager.R$drawable
+ androidx.viewpager.R$id
+ androidx.viewpager.R$integer
+ androidx.viewpager.R$layout
+ androidx.viewpager.R$string
+ androidx.viewpager.R$style
+ androidx.viewpager.R$styleable
 com/example/sqliteapp/BuildConfig.java
  com.example.sqliteapp.BuildConfig
 androidx/savedstate/R.java

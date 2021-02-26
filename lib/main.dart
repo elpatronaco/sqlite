@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         canvasColor: Colors.transparent
       ),
       //Our only screen/page we have
-      home: HomePage(title: 'My Todo List'),
+      home: HomePage(title: 'CRYPTO APP'),
     );
   }
 }

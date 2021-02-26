@@ -26,7 +26,7 @@ class CoinBloc {
   }
 
   addCoin(Coin coin) async {
-    await _todoRepository.insertTodo(coin);
+    await _todoRepository.insertCoin(coin);
     getTodos();
   }
 

@@ -6,7 +6,7 @@ class CoinRepository {
 
   Future getAllTodos({String query}) => todoDao.getTodos(query: query);
 
-  Future insertTodo(Coin coin) => todoDao.createTodo(coin);
+  Future insertCoin(Coin coin) => todoDao.createTodo(coin);
 
   Future updateTodo(Coin coin) => todoDao.updateTodo(coin);
 

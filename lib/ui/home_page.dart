@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sqliteapp/bloc/coin_bloc.dart';
 import 'package:sqliteapp/model/coin.dart';
+import 'package:sqliteapp/provider/mock.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -16,6 +17,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TodoApiProvider.getAllTodos();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.white,
         systemNavigationBarColor: Colors.white,
@@ -151,15 +153,15 @@ class HomePage extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  final newTodo = Coin(
-                                      id: _coinAliasTextField.value.text,
-                                      name: _coinNameTextField.value.text,
-                                      price: double.parse(
-                                          _coinPriceTextField.value.text),
-                                      image: _coinImageTextField.value.text,
+                                  final newCoin = Coin(
+                                    id: _coinAliasTextField.value.text,
+                                    name: _coinNameTextField.value.text,
+                                    price: double.parse(
+                                        _coinPriceTextField.value.text),
+                                    image: _coinImageTextField.value.text,
                                   );
 
-                                  coinBloc.addCoin(newTodo);
+                                  coinBloc.addCoin(newCoin);
                                   Navigator.pop(context);
                                 },
                               ),
@@ -225,11 +227,11 @@ class HomePage extends StatelessWidget {
                     key: new ObjectKey(coin),
                     child: Card(
                         child: ListTile(
-                            leading: coin.image != ""
-                                ? Image.network(coin.image)
-                                : Image.asset("assets/peseta.png"),
-                            title: Text(coin.name),
-                        )));
+                      leading: coin.image != ""
+                          ? Image.network(coin.image)
+                          : Image.asset("assets/peseta.png"),
+                      title: Text(coin.name),
+                    )));
                 return dismissibleCard;
               },
             )

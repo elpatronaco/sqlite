@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Coin {
   String id;
   String name;
